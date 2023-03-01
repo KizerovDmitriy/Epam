@@ -24,7 +24,7 @@ public class Words {
             public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
                 if (Objects.equals(o2.getValue(), o1.getValue())) {
                     return o1.getKey().compareTo(o2.getKey());
-                } else return o2.getValue().compareTo(o1.getValue());
+                } return o2.getValue().compareTo(o1.getValue());
             }
         });
 
