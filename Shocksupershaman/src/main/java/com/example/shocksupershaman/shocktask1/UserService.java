@@ -15,11 +15,9 @@ public class UserService {
     private static final AtomicLong COUNTER = new AtomicLong();
 
     public List<UserDTO> getAllUsers() {
-        List<UserDTO> dtoList = new ArrayList<>();
-        for (User user : db.values()) {
-            dtoList.add(user.toDTO());
-        }
-        return dtoList;
+        return db.values().stream()
+                .map(User::toDTO)
+                .collect(Collectors.toList());
     }
 
     public Optional<UserDTO> getUserById(Long id) {
