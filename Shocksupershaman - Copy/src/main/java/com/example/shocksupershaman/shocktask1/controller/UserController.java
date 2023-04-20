@@ -2,9 +2,9 @@ package com.example.shocksupershaman.shocktask1.controller;
 
 import com.example.shocksupershaman.shocktask1.model.User;
 import com.example.shocksupershaman.shocktask1.model.UserDTO;
-import com.example.shocksupershaman.shocktask1.exception.UserNotFoundException;
 import com.example.shocksupershaman.shocktask1.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,21 +28,14 @@ public class UserController {
 
     @GetMapping("{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable String id) {
-        try {
-            UserDTO user = userService.getUserById(id);
-            return ResponseEntity.ok(user);
-        } catch (UserNotFoundException e) {
-            throw new UserNotFoundException();
-        }
+        UserDTO user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody @Validated User user) {
         User createdUser = userService.createUser(user);
-        if (createdUser == null) {
-            return ResponseEntity.badRequest().body("Something go wrong");
-        }
-        return ResponseEntity.ok("User created successfully");
+        return ResponseEntity.ok(createdUser);
     }
 
     @GetMapping("/vovanrylit")
