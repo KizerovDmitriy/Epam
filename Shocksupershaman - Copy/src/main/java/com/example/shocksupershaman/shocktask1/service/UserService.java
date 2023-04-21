@@ -1,23 +1,20 @@
 package com.example.shocksupershaman.shocktask1.service;
 
-import com.example.shocksupershaman.shocktask1.exception.UserCreateException;
 import com.example.shocksupershaman.shocktask1.exception.UserNotFoundException;
 import com.example.shocksupershaman.shocktask1.model.User;
 import com.example.shocksupershaman.shocktask1.model.UserDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final Map<String, User> db = new HashMap<>();
     private final UserMapper userMapper;
-
-    public UserService(UserMapper userMapper) {
-        this.userMapper = userMapper;
-    }
 
     public List<UserDTO> getAllUsers() {
         return db.values().stream()
@@ -34,16 +31,12 @@ public class UserService {
         return userMapper.toDTO(user);
     }
 
-    public User createUser(User user) {
-
-        if (user == null) {
-            throw new UserCreateException();
-        }
+    public UserDTO createUser(UserDTO user) {
 
         String id = generateId();
         user.setId(id);
 
-        db.put(id, user);
+        db.put(id, userMapper.toEntity(user));
 
         return user;
     }

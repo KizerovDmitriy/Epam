@@ -1,6 +1,5 @@
 package com.example.shocksupershaman.shocktask1.controller;
 
-import com.example.shocksupershaman.shocktask1.model.User;
 import com.example.shocksupershaman.shocktask1.model.UserDTO;
 import com.example.shocksupershaman.shocktask1.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -23,19 +22,22 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<UserDTO> userDTOList = userService.getAllUsers();
+
         return ResponseEntity.ok(userDTOList);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable String id) {
         UserDTO user = userService.getUserById(id);
+
         return ResponseEntity.ok(user);
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody @Validated User user) {
-        User createdUser = userService.createUser(user);
-        return ResponseEntity.ok(createdUser);
+    public ResponseEntity<String> createUser(@RequestBody @Validated UserDTO user) {
+        UserDTO createdUser = userService.createUser(user);
+
+        return ResponseEntity.ok(createdUser.getId());
     }
 
     @GetMapping("/vovanrylit")
